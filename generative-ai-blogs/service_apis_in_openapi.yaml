@@ -1,0 +1,647 @@
+openapi: 3.0.0
+info:
+  title: Time Tracking System API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /users/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+      responses:
+        '200':
+          description: User registered successfully
+        '400':
+          description: Invalid request body
+  /users/login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: User logged in successfully
+        '400':
+          description: Invalid request body
+  /users/reset-password:
+    post:
+      summary: Reset a user's password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+      responses:
+        '200':
+          description: Password reset email sent successfully
+        '400':
+          description: Invalid request body
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User found
+        '404':
+          description: User not found
+    put:
+      summary: Update a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+      responses:
+        '200':
+          description: User updated successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: User not found
+    delete:
+      summary: Delete a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deleted successfully
+        '404':
+          description: User not found
+  /projects:
+    post:
+      summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                client:
+                  type: string
+              required:
+                - name
+                - client
+      responses:
+        '200':
+          description: Project created successfully
+        '400':
+          description: Invalid request body
+    get:
+      summary: Get projects
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Projects found
+        '404':
+          description: Projects not found
+  /projects/{id}:
+    get:
+      summary: Get a project by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Project found
+        '404':
+          description: Project not found
+    put:
+      summary: Update a project by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                client:
+                  type: string
+              required:
+                - name
+                - client
+      responses:
+        '200':
+          description: Project updated successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Project not found
+    delete:
+      summary: Delete a project by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Project deleted successfully
+        '404':
+          description: Project not found
+  /tasks:
+    post:
+      summary: Create a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                project:
+                  type: integer
+              required:
+                - name
+                - project
+      responses:
+        '200':
+          description: Task created successfully
+        '400':
+          description: Invalid request body
+    get:
+      summary: Get tasks
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tasks found
+        '404':
+          description: Tasks not found
+  /tasks/{id}:
+    get:
+      summary: Get a task by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Task found
+        '404':
+          description: Task not found
+    put:
+      summary: Update a task by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                project:
+                  type: integer
+              required:
+                - name
+                - project
+      responses:
+        '200':
+          description: Task updated successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Task not found
+    delete:
+      summary: Delete a task by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Task deleted successfully
+        '404':
+          description: Task not found
+  /time-entries:
+    post:
+      summary: Create a new time entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: integer
+                project:
+                  type: integer
+                task:
+                  type: integer
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+              required:
+                - user
+                - project
+                - task
+                - start_time
+                - end_time
+      responses:
+        '200':
+          description: Time entry created successfully
+        '400':
+          description: Invalid request body
+    get:
+      summary: Get time entries
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: integer
+        - in: query
+          name: project
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Time entries found
+        '404':
+          description: Time entries not found
+  /time-entries/{id}:
+    get:
+      summary: Get a time entry by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Time entry found
+        '404':
+          description: Time entry not found
+    put:
+      summary: Update a time entry by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: integer
+                project:
+                  type: integer
+                task:
+                  type: integer
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+              required:
+                - user
+                - project
+                - task
+                - start_time
+                - end_time
+      responses:
+        '200':
+          description: Time entry updated successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Time entry not found
+    delete:
+      summary: Delete a time entry by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Time entry deleted successfully
+        '404':
+          description: Time entry not found
+  /reports:
+    get:
+      summary: Generate a report
+      parameters:
+        - in: query
+          name: project
+          schema:
+            type: integer
+        - in: query
+          name: task
+          schema:
+            type: integer
+        - in: query
+          name: employee
+          schema:
+            type: integer
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Report generated successfully
+        '400':
+          description: Invalid request parameters
+  /invoices:
+    post:
+      summary: Create a new invoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client:
+                  type: string
+                project:
+                  type: integer
+                billing_rate:
+                  type: number
+                payment_terms:
+                  type: string
+              required:
+                - client
+                - project
+                - billing_rate
+                - payment_terms
+      responses:
+        '200':
+          description: Invoice created successfully
+        '400':
+          description: Invalid request body
+    get:
+      summary: Get invoices
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoices found
+        '404':
+          description: Invoices not found
+  /invoices/{id}:
+    get:
+      summary: Get an invoice by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Invoice found
+        '404':
+          description: Invoice not found
+    put:
+      summary: Update an invoice by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client:
+                  type: string
+                project:
+                  type: integer
+                billing_rate:
+                  type: number
+                payment_terms:
+                  type: string
+              required:
+                - client
+                - project
+                - billing_rate
+                - payment_terms
+      responses:
+        '200':
+          description: Invoice updated successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Invoice not found
+    delete:
+      summary: Delete an invoice by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Invoice deleted successfully
+        '404':
+          description: Invoice not found
+  /invoices/{id}/customize:
+    post:
+      summary: Customize an invoice by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                logo:
+                  type: string
+                header:
+                  type: string
+                footer:
+                  type: string
+              required:
+                - logo
+                - header
+                - footer
+      responses:
+        '200':
+          description: Invoice customized successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Invoice not found
+  /invoices/{id}/preview:
+    get:
+      summary: Preview an invoice by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Invoice preview generated successfully
+        '404':
+          description: Invoice not found
+  /invoices/{id}/send:
+    post:
+      summary: Send an invoice by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+      responses:
+        '200':
+          description: Invoice sent successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Invoice not found
